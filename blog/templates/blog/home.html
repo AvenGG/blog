@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="post">
+            <a class="post__title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+            <p class="post__info">
+                Автор: <strong>{{ post.author}}</strong> -
+                Дата: {{post.date | date:"F d, Y"}}
+            </p>
+            <p class="post__content" >{{ post.content | truncatechars:100 }}</p>
+        </article>
+    {% endfor %}
+{% endblock content %}

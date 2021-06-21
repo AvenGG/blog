@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    
+    <article class="post-page">
+        <h2 class="post-page__title">{{ object.title }}</h2>
+        <p class="post-page__info">
+            Автор: <strong>{{ object.author}}</strong>
+            Дата: {{object.date | date:"F d, Y"}}
+        </p>
+        {% if object.author == user %}
+            <a class="post-page__action" href="{% url 'post-update' object.id %}">Обновить</a>
+            <a class="post-page__action" href="{% url 'post-delete' object.id %}">Удалить</a>
+        {% endif %}
+        <p class="post-page__content" >{{ object.content }}</p>
+    
+        <div>
+            <br><br>
+            Комментарии:
+            <hr>
+            {% if not object.comments.all %}
+                Нет комментариев
+            {% else %}
+                {% for comment in object.comments.all %}
+                <div>
+                    <p><strong>{{comment.author}}</strong> {{comment.date}}</p>
+                    <p>{{comment.text}}</p>
+                    <hr>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <a href="{% url 'add-comment' object.pk%}"> Добавить комментарий</a>
+            
+        </div>
+    </article>
+    
+{% endblock content %}
